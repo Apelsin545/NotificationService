@@ -16,7 +16,11 @@ public class NotificationService {
     }
 
     public Notification saveNotification(Notification notification) {
-        return notificationRepository.save(notification);    
+        if (notification.getMessage() == null || notification.getSendAt() == null
+                || notification.getUserId() == null)
+            throw new IllegalNotificationFieldException("Одно из полей Notification null");
+
+        return notificationRepository.save(notification);
     }
 
     public List<Notification> findNotificationsBeforeDate(LocalDateTime localDateTime) {
